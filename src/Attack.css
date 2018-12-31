@@ -1,0 +1,12 @@
+.attack {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.attackIcon {
+    height: 25px;
+}
+
+.toHitIcon, .damageIcon {
+    height: 15px;
+}

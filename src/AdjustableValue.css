@@ -1,0 +1,32 @@
+.adjustableValue {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.adjustableValue.passivePerception {
+    color: green;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.valueIcon {
+    height: 25px;
+}
+
+.adjustableValue.ac {
+    color: blue;
+}
+
+.adjustableValue.hp {
+    color: darkred;
+}
+
+.arrow {
+    width: 25px;
+    height: auto;
+    opacity: 0.2;
+}
+
+.arrow.down {
+    transform: rotate(180deg);
+}

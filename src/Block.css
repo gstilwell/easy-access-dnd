@@ -1,0 +1,45 @@
+.block {
+    border: 1px solid black;
+    display: inline-block;
+    position: absolute;
+    background-color: white;
+}
+
+.charname {
+    background: lightgray;
+    padding: 3px;
+}
+
+.playername {
+    background: lightgray;
+    padding: 3px;
+    padding-top: 0px;
+    font-size: 0.6em;
+}
+
+.bit {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.bit > img {
+    height: 25px;
+}
+
+.bit.passivePerception {
+    color: green;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.bit.ac {
+    color: blue;
+}
+
+.bit.hp {
+    color: darkred;
+}
+
+.charname {
+    display: block;
+}
