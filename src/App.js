@@ -10,17 +10,17 @@ class App extends Component {
     this.state = {
       options : [
         {
-          display: "Option 1",
+          display: "New character",
           displayType: "text",
           target: this.handleOption1
         },
         {
-          display: "Option 2",
+          display: "New monster",
           displayType: "text",
           target: this.handleOption2,
         },
         {
-          display: "Option 3",
+          display: "New NPC",
           displayType: "text",
           target: this.handleOption3
         },

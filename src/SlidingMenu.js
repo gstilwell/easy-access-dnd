@@ -59,9 +59,7 @@ class SlidingMenu extends Component {
                 entryDisplay = this.display(thisOption.displayType, thisOption.display);
 
             options.push(
-                <h2 key={option}>
-                    <button onClick={thisOption.target} key={option + 10000}> {entryDisplay} </button>
-                </h2>
+                <button onClick={thisOption.target} className="slidingMenuOptionButton" key={option}> {entryDisplay} </button>
             );
         }
 
