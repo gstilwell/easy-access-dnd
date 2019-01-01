@@ -9,8 +9,8 @@ class Attack extends Component {
         this.dice = new Dice();
 
         this.state = {
-            ac : 10,
-            damage : 26
+            ac : '-',
+            damage : '-'
         }
     }
 

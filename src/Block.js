@@ -82,14 +82,54 @@ class Block extends Component {
         }
         else if( this.props.name.includes('VampSpawn') ) {
             return {
-                ac: 14,
-                hp: 56,
+                ac: 15,
+                hp: 82,
+                attacks: [
+                    {
+                        name: "bite",
+                        toHitModifier: 6,
+                        damageDice: "3d6",
+                        damageModifier: 3,
+                        attackIcon: blood,
+                        toHitIcon: shield,
+                        damageIcon: blood
+                    },
+                    {
+                        name: "claws",
+                        toHitModifier: 6,
+                        damageDice: "2d4",
+                        damageModifier: 3,
+                        attackIcon: blood,
+                        toHitIcon: shield,
+                        damageIcon: blood
+                    },
+                ]
             }
         }
         else if( this.props.name.includes('Strahd') ) {
             return {
                 ac: 23,
                 hp: 999,
+                attacks: [
+                    {
+                        name: "slice",
+                        toHitModifier: 5,
+                        damageDice: "3d6",
+                        damageModifier: 3,
+                        attackIcon: blood,
+                        toHitIcon: shield,
+                        damageIcon: blood
+                    },
+                    {
+                        name: "dice",
+                        toHitModifier: 2,
+                        damageDice: "1d4",
+                        damageModifier: 1,
+                        attackIcon: blood,
+                        toHitIcon: shield,
+                        damageIcon: blood
+                    },
+                ]
             }
         }
         else {
@@ -152,9 +192,32 @@ class MonsterBlock extends Block {
         return id;
     }
 
+    attacks() {
+        let attacks = this.state.attacks;
+        let tags = [];
+
+        for( let attack in attacks ) {
+            let attackInfo = attacks[attack];
+            tags.push(
+                <Attack
+                    key={attack}
+                    name={attackInfo.name}
+                    toHitModifier={attackInfo.toHitModifier}
+                    damageDice={attackInfo.damageDice}
+                    damageModifier={attackInfo.damageModifier}
+                    attackIcon={attackInfo.attackIcon}
+                    toHitIcon={attackInfo.toHitIcon}
+                    damageIcon={attackInfo.damageIcon}
+                    />
+            );
+            tags.push(<br key={attack + 'br'} />);
+        }
+        return tags;
+    }
+
     render() {
         return (
-            <div id={this.blockId()} className="block character">
+            <div id={this.blockId()} className="block monster">
                     <DraggableBit
                         text={this.props.name}
                         handleDragStart={this.startDrag}
@@ -175,15 +238,7 @@ class MonsterBlock extends Block {
                         doublearrow={DoubleArrow}
                         icon={blood}
                         type="hp" />
-                    <Attack
-                        name="Slice"
-                        toHitModifier={5}
-                        damageDice="3d6"
-                        damageModifier={3}
-                        attackIcon={blood}
-                        toHitIcon={shield}
-                        damageIcon={blood}
-                        />
+                    { this.attacks() }
             </div>
         );
     }
