@@ -80,7 +80,7 @@ class Block extends Component {
                 hp: 33,
             }
         }
-        else if( this.props.name.includes('VampSpawn') ) {
+        else if( this.props.name.includes('VampireSpawn') ) {
             return {
                 ac: 15,
                 hp: 82,

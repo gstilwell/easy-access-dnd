@@ -10,6 +10,22 @@ class App extends Component {
 
     this.state = {
       newMonsterModalOpen: false,
+      characters : [
+        { name: "Usor", playername: "Nic" },
+        { name: "Gun", playername: "Drew" },
+        { name: "Smog", playername: "Mark" },
+        { name: "Darvin", playername: "Mike" },
+        { name: "Kellen", playername: "Chris" },
+        { name: "Taklinn", playername: "Sherry" },
+        { name: "Draak", playername: "Shelly" },
+      ],
+      monsters : [
+        { name: "VampireSpawn1" },
+        { name: "VampireSpawn2" },
+        { name: "VampireSpawn3" },
+        { name: "VampireSpawn4" },
+        { name: "Strahd" },
+      ],
       options : [
         {
           display: "New character",
@@ -46,7 +62,30 @@ class App extends Component {
     console.log("3");
   }
 
+  characterTags() {
+    let characters = [];
+
+    for( let index in this.state.characters ) {
+      let char = this.state.characters[index];
+      characters.push( <CharacterBlock key={index} name={char.name} playername={char.playername} /> );
+    }
+
+    return characters;
+  }
+
+  monsterTags() {
+    let monsters = [];
+
+    for( let index in this.state.monsters ) {
+      let monster = this.state.monsters[index];
+      monsters.push( <MonsterBlock key={index} name={monster.name} playername={monster.playername} /> );
+    }
+
+    return monsters;
+  }
+
   render() {
+
     return (
       <div>
 
@@ -54,18 +93,8 @@ class App extends Component {
           options={this.state.options}
         />
         <div id='mainapp' className="App">
-          <CharacterBlock name="Gun" playername="Drew" />
-          <CharacterBlock name="Smog" playername="Mark" />
-          <CharacterBlock name="Darvin" playername="Mike" />
-          <CharacterBlock name="Kellen" playername="Chris" />
-          <CharacterBlock name="Usor" playername="Nic" />
-          <CharacterBlock name="Taklinn" playername="Sherry" />
-          <CharacterBlock name="Draak" playername="Shelly" />
-          <MonsterBlock name="VampSpawn1" />
-          <MonsterBlock name="VampSpawn2" />
-          <MonsterBlock name="VampSpawn3" />
-          <MonsterBlock name="VampSpawn4" />
-          <MonsterBlock name="Strahd" />
+          { this.characterTags() }
+          { this.monsterTags() }
         </div>
 
         <div>
