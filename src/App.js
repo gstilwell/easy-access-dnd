@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { CharacterBlock, MonsterBlock } from './Block.js';
 import { SlidingMenu } from './SlidingMenu.js';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './App.css';
 
 class App extends Component {
@@ -8,45 +9,47 @@ class App extends Component {
     super(props);
 
     this.state = {
+      newMonsterModalOpen: false,
       options : [
         {
           display: "New character",
           displayType: "text",
-          target: this.handleOption1
+          onClick: this.handleOption1
         },
         {
           display: "New monster",
           displayType: "text",
-          target: this.handleOption2,
+          onClick: this.handleNewMonster,
         },
         {
           display: "New NPC",
           displayType: "text",
-          target: this.handleOption3
+          onClick: this.handleOption3
         },
       ]
     }
-  
-    this.handleOption1 = this.handleOption1.bind(this);
-    this.handleOption2 = this.handleOption2.bind(this);
-    this.handleOption3 = this.handleOption3.bind(this);
   }
 
-  handleOption1() {
+  toggleNewMonsterModal = () => {
+    this.setState( {newMonsterModalOpen: !this.state.newMonsterModalOpen} );
+  }
+
+  handleOption1 = () => {
     console.log("1");
   }
 
-  handleOption2() {
-    console.log("2");
+  handleNewMonster = () => {
+    this.toggleNewMonsterModal();
   }
 
-  handleOption3() {
+  handleOption3 = () => {
     console.log("3");
   }
 
   render() {
     return (
       <div>
+
         <SlidingMenu
           options={this.state.options}
         />
@@ -63,6 +66,18 @@ class App extends Component {
           <MonsterBlock name="VampSpawn3" />
           <MonsterBlock name="VampSpawn4" />
           <MonsterBlock name="Strahd" />
+        </div>
+
+        <div>
+          <Modal isOpen={this.state.newMonsterModalOpen} toggle={this.toggleNewMonsterModal} className="newMonsterModal">
+            <ModalHeader toggle={this.toggleNewMonsterModal}>Modal title</ModalHeader>
+            <ModalBody>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </ModalBody>
+            <ModalFooter>
+              <button onClick={this.toggleNewMonsterModal}>Do Something</button>{' '}
+            </ModalFooter>
+          </Modal>
         </div>
       </div>
     );
