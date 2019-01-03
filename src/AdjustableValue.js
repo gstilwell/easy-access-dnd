@@ -3,10 +3,12 @@ import './AdjustableValue.css';
 
 class Arrow extends Component {
     handleClick = (e) => {
+        console.log(this.props.category);
         let sign = this.props.direction === 'up' ? 1 : -1,
             event = new CustomEvent( 'adjustValue',
                 {
                     detail: {
+                        category: this.props.category,
                         name: this.props.name,
                         type: this.props.type,
                         change: sign * this.props.value
@@ -46,12 +48,14 @@ class AdjustableValue extends Component {
                 <Arrow
                     icon={ this.props.doublearrow }
                     direction="down"
+                    category={ this.props.category }
                     type={ this.props.type }
                     name={ this.props.blockname }
                     value={ 5 } />
                 <Arrow
                     icon={ this.props.singlearrow }
                     direction="down"
+                    category={ this.props.category }
                     type={ this.props.type }
                     name={ this.props.blockname }
                     value={ 1 } />
@@ -60,12 +64,14 @@ class AdjustableValue extends Component {
                 <Arrow
                     icon={ this.props.singlearrow }
                     direction="up"
+                    category={ this.props.category }
                     type={ this.props.type }
                     name={ this.props.blockname }
                     value={ 1 } />
                 <Arrow
                     icon={ this.props.doublearrow }
                     direction="up"
+                    category={ this.props.category }
                     type={ this.props.type }
                     name={ this.props.blockname }
                     value={ 5 } />

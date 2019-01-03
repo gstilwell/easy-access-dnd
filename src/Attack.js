@@ -22,6 +22,8 @@ class Attack extends Component {
             damageRoll = this.dice.roll(...damageDice),
             totalDamage = damageRoll + this.props.damageModifier;
 
+        console.log(this.props);
+
         this.setState( 
             {
                 ac : toHit,

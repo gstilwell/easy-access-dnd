@@ -13,7 +13,7 @@ import blood from './img/blood.png';
 class Block extends Component {
     constructor(props) {
         super(props);
-        this.state = this.getStats();
+        this.state = {};
 
         this.startDrag = this.startDrag.bind(this);
         this.drag = this.drag.bind(this);
@@ -22,123 +22,12 @@ class Block extends Component {
     }
     
     componentDidMount() {
-        this.element().addEventListener('adjustValue', this.adjustValue, true);
+        //this.element().addEventListener('adjustValue', this.adjustValue, true);
     }
     
     element() {
         let element = document.getElementById(this.blockId());
         return element;
-    }
-
-    getStats() {
-        if( this.props.name === 'Gun' ) {
-            return {
-                passivePerception: 12,
-                ac: 15,
-                hp: 33,
-            }
-        }
-        else if( this.props.name === 'Smog' ) {
-            return {
-                passivePerception: 12,
-                ac: 15,
-                hp: 33,
-            }
-        }
-        else if( this.props.name === 'Darvin' ) {
-            return {
-                passivePerception: 12,
-                ac: 15,
-                hp: 33,
-            }
-        }
-        else if( this.props.name === 'Kellen' ) {
-            return {
-                passivePerception: 12,
-                ac: 15,
-                hp: 33,
-            }
-        }
-        else if( this.props.name === 'Taklinn' ) {
-            return {
-                passivePerception: 12,
-                ac: 15,
-                hp: 33,
-            }
-        }
-        else if( this.props.name === 'Draak' ) {
-            return {
-                passivePerception: 12,
-                ac: 15,
-                hp: 33,
-            }
-        }
-        else if( this.props.name === 'Usor' ) {
-            return {
-                passivePerception: 12,
-                ac: 15,
-                hp: 33,
-            }
-        }
-        else if( this.props.name.includes('VampireSpawn') ) {
-            return {
-                ac: 15,
-                hp: 82,
-                attacks: [
-                    {
-                        name: "bite",
-                        toHitModifier: 6,
-                        damageDice: "3d6",
-                        damageModifier: 3,
-                        attackIcon: blood,
-                        toHitIcon: shield,
-                        damageIcon: blood
-                    },
-                    {
-                        name: "claws",
-                        toHitModifier: 6,
-                        damageDice: "2d4",
-                        damageModifier: 3,
-                        attackIcon: blood,
-                        toHitIcon: shield,
-                        damageIcon: blood
-                    },
-                ]
-            }
-        }
-        else if( this.props.name.includes('Strahd') ) {
-            return {
-                ac: 23,
-                hp: 999,
-                attacks: [
-                    {
-                        name: "slice",
-                        toHitModifier: 5,
-                        damageDice: "3d6",
-                        damageModifier: 3,
-                        attackIcon: blood,
-                        toHitIcon: shield,
-                        damageIcon: blood
-                    },
-                    {
-                        name: "dice",
-                        toHitModifier: 2,
-                        damageDice: "1d4",
-                        damageModifier: 1,
-                        attackIcon: blood,
-                        toHitIcon: shield,
-                        damageIcon: blood
-                    },
-                ]
-            }
-        }
-        else {
-            return {
-                passivePerception: 0,
-                ac: 0,
-                hp: 0,
-            }
-        }
     }
 
     placeElement(x,y) {
@@ -193,7 +82,7 @@ class MonsterBlock extends Block {
     }
 
     attacks() {
-        let attacks = this.state.attacks;
+        let attacks = this.props.attacks;
         let tags = [];
 
         for( let attack in attacks ) {
@@ -205,9 +94,9 @@ class MonsterBlock extends Block {
                     toHitModifier={attackInfo.toHitModifier}
                     damageDice={attackInfo.damageDice}
                     damageModifier={attackInfo.damageModifier}
-                    attackIcon={attackInfo.attackIcon}
-                    toHitIcon={attackInfo.toHitIcon}
-                    damageIcon={attackInfo.damageIcon}
+                    attackIcon={blood}
+                    toHitIcon={shield}
+                    damageIcon={blood}
                     />
             );
             tags.push(<br key={attack + 'br'} />);
@@ -226,18 +115,22 @@ class MonsterBlock extends Block {
                         type="monsterName" />
                     <AdjustableValue
                         blockname={this.props.name}
-                        value={this.state.ac}
+                        category="monsters"
+                        value={this.props.ac}
                         singlearrow={SingleArrow}
                         doublearrow={DoubleArrow}
                         icon={shield}
-                        type="ac" />
+                        type="ac"
+                        update={this.props.update} />
                     <AdjustableValue
                         blockname={this.props.name}
-                        value={this.state.hp}
+                        category="monsters"
+                        value={this.props.hp}
                         singlearrow={SingleArrow}
                         doublearrow={DoubleArrow}
                         icon={blood}
-                        type="hp" />
+                        type="hp"
+                        update={this.props.update} />
                     { this.attacks() }
             </div>
         );
@@ -262,25 +155,31 @@ class CharacterBlock extends Block {
                         type="characterName" />
                     <AdjustableValue
                         blockname={this.props.name}
-                        value={this.state.passivePerception}
+                        category="characters"
+                        value={this.props.passivePerception}
                         singlearrow={SingleArrow}
                         doublearrow={DoubleArrow}
                         icon={eye}
-                        type="passivePerception" />
+                        type="passivePerception"
+                        update={this.props.update} />
                     <AdjustableValue
                         blockname={this.props.name}
-                        value={this.state.ac}
+                        category="characters"
+                        value={this.props.ac}
                         singlearrow={SingleArrow}
                         doublearrow={DoubleArrow}
                         icon={shield}
-                        type="ac" />
+                        type="ac"
+                        update={this.props.update} />
                     <AdjustableValue
                         blockname={this.props.name}
-                        value={this.state.hp}
+                        category="characters"
+                        value={this.props.hp}
                         singlearrow={SingleArrow}
                         doublearrow={DoubleArrow}
                         icon={blood}
-                        type="hp" />
+                        type="hp"
+                        update={this.props.update} />
             </div>
         );
     }

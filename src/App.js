@@ -10,21 +10,22 @@ class App extends Component {
 
     this.state = {
       newMonsterModalOpen: false,
-      characters : [
-        { name: "Usor", playername: "Nic" },
-        { name: "Gun", playername: "Drew" },
-        { name: "Smog", playername: "Mark" },
-        { name: "Darvin", playername: "Mike" },
-        { name: "Kellen", playername: "Chris" },
-        { name: "Taklinn", playername: "Sherry" },
-        { name: "Draak", playername: "Shelly" },
-      ],
+      characters : {
+        "Usor": { playername: "Nic", passivePerception: 1, hp: 2, ac: 3 },
+        "Gun": { playername: "Drew", passivePerception: 1, hp: 2, ac: 3 },
+        "Smog": { playername: "Mark", passivePerception: 1, hp: 2, ac: 3 },
+        "Darvin": { playername: "Mike", passivePerception: 1, hp: 2, ac: 3 },
+        "Kellen": { playername: "Chris", passivePerception: 1, hp: 2, ac: 3 },
+        "Taklinn": { playername: "Sherry", passivePerception: 1, hp: 2, ac: 3 },
+        "Draak": { playername: "Shelly", passivePerception: 1, hp: 2, ac: 3 },
+      },
+      //monsters: [],
       monsters : [
-        { name: "VampireSpawn1" },
-        { name: "VampireSpawn2" },
-        { name: "VampireSpawn3" },
-        { name: "VampireSpawn4" },
-        { name: "Strahd" },
+      //  { name: "VampireSpawn1" },
+      //  { name: "VampireSpawn2" },
+      //  { name: "VampireSpawn3" },
+      //  { name: "VampireSpawn4" },
+      //  { name: "Strahd" },
       ],
       options : [
         {
@@ -46,6 +47,28 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    document.getElementById('App').addEventListener('adjustValue', this.adjustValue, true);
+  }
+
+  // category is 'character' or 'monster'
+  // name is character/monster name
+  // type is type of the stat (hp, ac, etc)
+  // value is the new value
+  updateStat = (category, name, type, value) => {
+  }
+
+  adjustValue = (e) => {
+    console.log(e);
+    let details = e.detail;
+    console.log(details);
+    let beings = Object.assign({}, this.state[details.category]);
+    
+    beings[details.name][details.type] = beings[details.name][details.type] + details.change;
+    this.setState( {[details.category]: beings} );
+  }
+
+
   handleOption1 = () => {
     console.log("1");
   }
@@ -54,9 +77,11 @@ class App extends Component {
     this.setState( {newMonsterModalOpen: true} );
   }
 
-  createNewMonster = (monsterInfo) => {
-    console.log(monsterInfo);
-    this.setState( {newMonsterModalOpen: false} );
+  createNewMonster = (newMonster) => {
+    let monsters = Object.assign({}, this.state.monsters);
+    monsters[newMonster.name] = newMonster;
+    console.log(newMonster, monsters);
+    this.setState( {newMonsterModalOpen: false, monsters: monsters} );
   }
 
   handleOption3 = () => {
@@ -66,9 +91,11 @@ class App extends Component {
   characterTags() {
     let characters = [];
 
-    for( let index in this.state.characters ) {
-      let char = this.state.characters[index];
-      characters.push( <CharacterBlock key={index} name={char.name} playername={char.playername} /> );
+    for( let name in this.state.characters ) {
+      let char = this.state.characters[name];
+      characters.push( <CharacterBlock key={name} name={name} playername={char.playername}
+                          passivePerception={char.passivePerception} hp={char.hp} ac={char.ac}
+                          update={this.updateStat} /> );
     }
 
     return characters;
@@ -79,7 +106,9 @@ class App extends Component {
 
     for( let index in this.state.monsters ) {
       let monster = this.state.monsters[index];
-      monsters.push( <MonsterBlock key={index} name={monster.name} playername={monster.playername} /> );
+      monsters.push( <MonsterBlock key={index} name={monster.name} playername={monster.playername}
+                        hp={monster.hp} ac={monster.ac} attacks={monster.attacks}
+                        update={this.updateStat} /> );
     }
 
     return monsters;
@@ -88,7 +117,7 @@ class App extends Component {
   render() {
 
     return (
-      <div>
+      <div id="App">
 
         <SlidingMenu
           options={this.state.options}
