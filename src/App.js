@@ -19,14 +19,10 @@ class App extends Component {
         "Taklinn": { playername: "Sherry", passivePerception: 1, hp: 2, ac: 3 },
         "Draak": { playername: "Shelly", passivePerception: 1, hp: 2, ac: 3 },
       },
-      //monsters: [],
-      monsters : [
-      //  { name: "VampireSpawn1" },
-      //  { name: "VampireSpawn2" },
-      //  { name: "VampireSpawn3" },
-      //  { name: "VampireSpawn4" },
-      //  { name: "Strahd" },
-      ],
+      monsters : {
+        "Strahd": { name: "Strahd", hp: 50, ac: 27, attacks:
+          [ { name: 'taco', toHitModifier: 12, damageDice: "1d12", damageModifier: 10 } ] },
+      },
       options : [
         {
           display: "New character",
