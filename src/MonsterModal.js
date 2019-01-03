@@ -14,6 +14,7 @@ class MonsterModal extends Component {
             toHitMod: '',
             damageDice: '',
             damageMod: '',
+            quantity: '',
         };
     }
 
@@ -30,6 +31,7 @@ class MonsterModal extends Component {
                     damageModifier: parseInt(this.state.damageMod, 10),
                 },
             ],
+            quantity: this.state.quantity,
         }
         this.props.createMonsterCallback(info);
     }
@@ -47,10 +49,11 @@ class MonsterModal extends Component {
                     Name: <input type="text" name="name" value={this.state.name} onChange={this.changeField} /><br />
                     HP: <input type="text" name="hp" value={this.state.hp} onChange={this.changeField} /><br />
                     AC: <input type="text" name="ac" value={this.state.ac} onChange={this.changeField} /><br />
-                    Attack: <input type="text" name="attackName" value={this.state.attackName} placeholder="name" onChange={this.changeField} />
-                            <input type="text" name="toHitMod" value={this.state.toHidMod} placeholder="to hit mod" onChange={this.changeField} />
-                            <input type="text" name="damageDice" value={this.state.damageDice} placeholder="damage dice" onChange={this.changeField} />
-                            <input type="text" name="damageMod" value={this.state.damageMod} placeholder="damage mod" onChange={this.changeField} />
+                    Attack: <input type="text" name="attackName" value={this.state.attackName} size={12} placeholder="name" onChange={this.changeField} />
+                            <input type="text" name="toHitMod" value={this.state.toHitMod} size={6} placeholder="hit mod" onChange={this.changeField} />
+                            <input type="text" name="damageDice" value={this.state.damageDice} size={12} placeholder="dmg dice" onChange={this.changeField} />
+                            <input type="text" name="damageMod" value={this.state.damageMod} size={6} placeholder="dmg mod" onChange={this.changeField} /><br />
+                    Quantity: <input type="text" name="quantity" value={this.state.quantity} size={4} onChange={this.changeField} /><br />
                 </ModalBody>
                 <ModalFooter>
                     <button onClick={this.sendMonsterInfo}>Create monster</button>{' '}

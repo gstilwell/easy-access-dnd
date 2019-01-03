@@ -11,13 +11,13 @@ class App extends Component {
     this.state = {
       newMonsterModalOpen: false,
       characters : {
-        "Usor": { playername: "Nic", passivePerception: 1, hp: 2, ac: 3 },
-        "Gun": { playername: "Drew", passivePerception: 1, hp: 2, ac: 3 },
-        "Smog": { playername: "Mark", passivePerception: 1, hp: 2, ac: 3 },
-        "Darvin": { playername: "Mike", passivePerception: 1, hp: 2, ac: 3 },
-        "Kellen": { playername: "Chris", passivePerception: 1, hp: 2, ac: 3 },
-        "Taklinn": { playername: "Sherry", passivePerception: 1, hp: 2, ac: 3 },
-        "Draak": { playername: "Shelly", passivePerception: 1, hp: 2, ac: 3 },
+        "Usor": { playername: "Nic", passivePerception: 10, hp: 2, ac: 14 },
+        "Gun": { playername: "Drew", passivePerception: 10, hp: 2, ac: 14 },
+        "Smog": { playername: "Mark", passivePerception: 10, hp: 2, ac: 14 },
+        "Darvin": { playername: "Mike", passivePerception: 10, hp: 2, ac: 14 },
+        "Kellen": { playername: "Chris", passivePerception: 10, hp: 2, ac: 14 },
+        "Taklinn": { playername: "Sherry", passivePerception: 10, hp: 2, ac: 14 },
+        "Draak": { playername: "Shelly", passivePerception: 10, hp: 2, ac: 14 },
       },
       monsters : {
         "Strahd": { name: "Strahd", hp: 50, ac: 27, attacks:
@@ -75,7 +75,16 @@ class App extends Component {
 
   createNewMonster = (newMonster) => {
     let monsters = Object.assign({}, this.state.monsters);
-    monsters[newMonster.name] = newMonster;
+    if( newMonster.quantity ) {
+      for( let i = 1; i <= newMonster.quantity; i += 1 ) {
+        let thisMonster = Object.assign({}, newMonster);
+        thisMonster.name = newMonster.name + i
+        monsters[thisMonster.name] = thisMonster;
+      }
+    }
+    else {
+      monsters[newMonster.name] = newMonster;
+    }
     console.log(newMonster, monsters);
     this.setState( {newMonsterModalOpen: false, monsters: monsters} );
   }
