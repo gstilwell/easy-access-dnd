@@ -12,14 +12,15 @@ class App extends Component {
 
     this.state = {
       newMonsterModalOpen: false,
+      monsterCounts : {},
       characters : {
-        "Usor": { playername: "Nic", passivePerception: 12, hp: 36, hpMax: 36, ac: 10, initModifier: 0 },
-        "Gunn": { playername: "Drew", passivePerception: 13, hp: 48, hpMax: 48, ac: 15, initModifier: 1 },
-        "Smog": { playername: "Mark", passivePerception: 11, hp: 47, hpMax: 47, ac: 12, initModifier: 2 },
-        "Darvin": { playername: "Mike", passivePerception: 15, hp: 38, hpMax: 38, ac: 18, initModifier: 1 },
-        "Kellen": { playername: "Chris", passivePerception: 13, hp: 33, hpMax: 33, ac: 14, initModifier: 3 },
-        "Taklinn": { playername: "Sherry", passivePerception: 13, hp: 44, hpMax: 44, ac: 14, initModifier: 3 },
-        "Dra'ak": { playername: "Shelly", passivePerception: 15, hp: 44, hpMax: 44, ac: 17, initModifier: 5 },
+        //"Usor": { playername: "Nic", passivePerception: 12, hp: 36, hpMax: 36, ac: 10, initModifier: 0 },
+        //"Gunn": { playername: "Drew", passivePerception: 13, hp: 48, hpMax: 48, ac: 15, initModifier: 1 },
+        //"Smog": { playername: "Mark", passivePerception: 11, hp: 47, hpMax: 47, ac: 12, initModifier: 2 },
+        //"Darvin": { playername: "Mike", passivePerception: 15, hp: 38, hpMax: 38, ac: 18, initModifier: 1 },
+        //"Kellen": { playername: "Chris", passivePerception: 13, hp: 33, hpMax: 33, ac: 14, initModifier: 3 },
+        //"Taklinn": { playername: "Sherry", passivePerception: 13, hp: 44, hpMax: 44, ac: 14, initModifier: 3 },
+        //"Dra'ak": { playername: "Shelly", passivePerception: 15, hp: 44, hpMax: 44, ac: 17, initModifier: 5 },
       },
       monsters : {
         "Strahd": { name: "Strahd", hp: 144, ac: 16, initModifier: 2,
@@ -28,26 +29,26 @@ class App extends Component {
             { name: 'Bite', toHitModifier: 9, damageDice: "3d6", damageModifier: 4 },
             { name: 'Charm (wis 17)', toHitModifier: 17, damageDice: "1d0", damageModifier: 0 },
           ]},
-        "VampSpawn1": { name: "VampSpawn1", hp: 82, ac: 15, initModifier: 2,
-          attacks: [
-            { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
-            { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
-          ]},
-        "VampSpawn2": { name: "VampSpawn2", hp: 82, ac: 15, initModifier: 2,
-          attacks: [
-            { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
-            { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
-          ]},
-        "VampSpawn3": { name: "VampSpawn3", hp: 82, ac: 15, initModifier: 2,
-          attacks: [
-            { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
-            { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
-          ]},
-        "VampSpawn4": { name: "VampSpawn4", hp: 82, ac: 15, initModifier: 2,
-          attacks: [
-            { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
-            { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
-          ]},
+        //"VampSpawn1": { name: "VampSpawn1", hp: 82, ac: 15, initModifier: 2,
+        //  attacks: [
+        //    { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
+        //    { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
+        //  ]},
+        //"VampSpawn2": { name: "VampSpawn2", hp: 82, ac: 15, initModifier: 2,
+        //  attacks: [
+        //    { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
+        //    { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
+        //  ]},
+        //"VampSpawn3": { name: "VampSpawn3", hp: 82, ac: 15, initModifier: 2,
+        //  attacks: [
+        //    { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
+        //    { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
+        //  ]},
+        //"VampSpawn4": { name: "VampSpawn4", hp: 82, ac: 15, initModifier: 2,
+        //  attacks: [
+        //    { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
+        //    { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
+        //  ]},
         //"BlackSkel": { name: "BlackSkel", hp: 71, ac: 17, initModifier: 2,
         //  attacks: [
         //    { name: 'Claw', toHitModifier: 6, damageDice: "1d8", damageModifier: 4 },
@@ -96,9 +97,7 @@ class App extends Component {
   }
 
   adjustValue = (e) => {
-    console.log(e);
     let details = e.detail;
-    console.log(details);
     let beings = Object.assign({}, this.state[details.category]);
     
     beings[details.name][details.type] = beings[details.name][details.type] + details.change;
@@ -115,21 +114,36 @@ class App extends Component {
     console.log("1");
   }
 
+  nextMonsterCount(name) {
+    let counts = this.state.monsterCounts;
+    if( !counts[name] ) {
+      counts[name] = 0;
+    }
+    counts[name] += 1;
+    this.setState( {monsterCounts: counts} );
+    return counts[name];
+  }
+
   handleNewMonster = () => {
     this.setState( {newMonsterModalOpen: true} );
   }
 
   createNewMonster = (newMonster) => {
-    let monsters = Object.assign({}, this.state.monsters);
+    let monsters = Object.assign({}, this.state.monsters),
+        thisMonster;
+
     if( newMonster.quantity ) {
-      for( let i = 1; i <= newMonster.quantity; i += 1 ) {
-        let thisMonster = Object.assign({}, newMonster);
-        thisMonster.name = newMonster.name + '-' + i;
+      for( let i = 0; i < newMonster.quantity; i += 1 ) {
+        thisMonster = Object.assign({}, newMonster);
+        thisMonster.name = newMonster.name + '-' + this.nextMonsterCount(newMonster.name);
         monsters[thisMonster.name] = thisMonster;
+        console.log("created monster of type", newMonster.name, "as", thisMonster.name);
       }
     }
     else {
-      monsters[newMonster.name] = newMonster;
+      thisMonster = Object.assign({}, newMonster);
+      thisMonster.name = newMonster.name + '-' + this.nextMonsterCount(newMonster.name);
+      monsters[thisMonster.name] = thisMonster;
     }
 
     $.post(

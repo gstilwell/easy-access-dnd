@@ -3,7 +3,6 @@ import './AdjustableValue.css';
 
 class Arrow extends Component {
     handleClick = (e) => {
-        console.log(this.props.category);
         let sign = this.props.direction === 'up' ? 1 : -1,
             event = new CustomEvent( 'adjustValue',
                 {
