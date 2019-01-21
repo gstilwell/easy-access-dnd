@@ -11,24 +11,25 @@ class InitiativeStrip extends Component {
 
         this.state = {
             sortedCombatants: [],
+            active: null,
         }
     }
 
-    //TODO move this to a generic utility place
-    statScoreToModifier(score) {
-        return Math.floor((score-10) / 2);
+    componentDidUpdate(prevProps) {
+        console.log("cougars", prevProps);
     }
 
     doRolls() {
-        let combatants = {};
+        let combatants = {},
+            combatantsIn = Object.assign({}, this.props.monsters, this.props.characters);
 
         // roll initiative for each combatant.
         // the initiatives are stored in a dict by initiative number.
         // this is because they need to be sorted, and that will be much easier with an array of keys
         // than with an array of dict elements
-        for( let combatant in this.props.combatants ) {
-            let thisCombatant = this.props.combatants[combatant],
-                initRoll = this.dice.roll("1d20") + (this.statScoreToModifier(thisCombatant.dex));
+        for( let combatant in combatantsIn ) {
+            let thisCombatant = combatantsIn[combatant],
+                initRoll = this.dice.roll("1d20") + thisCombatant.initModifier;
 
             if( !(initRoll in combatants) ) {
                 combatants[initRoll] = {};
@@ -47,23 +48,24 @@ class InitiativeStrip extends Component {
         for( let initiative in combatants ) {
             for( let combatant in combatants[initiative] ) {
                 sortedCombatants.push(combatant);
-                console.log(initiative, combatant);
             }
         }
 
-        this.setState( {sortedCombatants: sortedCombatants} );
+        this.setState( {sortedCombatants: sortedCombatants, active: 0} );
     }
 
     advance = () => {
-
+        let newActive = (this.state.active + 1) % this.state.sortedCombatants.length;
+        this.setState( {active: newActive} );
     }
 
     render() {
         return (
-            <div>
-                <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+            // TODO there probably shouldn't be a hard coded ID in here, but I need something
+            //      to add an eventlistener to
+            <div id="initstrip">
                 <button onClick={this.rollInitiative}>Roll initiative</button>
-                <Strip elements={this.state.sortedCombatants} />
+                <Strip elements={this.state.sortedCombatants} activeIndex={this.state.active} />
                 <button onClick={this.advance}>Next</button>
             </div>
         );

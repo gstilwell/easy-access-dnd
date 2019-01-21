@@ -4,11 +4,13 @@ import './Strip.css';
 class Strip extends Component {
     elementsToSpans() {
         let spans = [],
-            key = 0;
+            index = 0,
+            active = '';
 
         for( let element in this.props.elements ) {
-            spans.push( <span key={key} className="stripElement">{this.props.elements[element]}</span> );
-            key += 1;
+            active = this.props.activeIndex === index ? 'active' : '';
+            spans.push( <span key={index} className={"stripElement " + active}>{this.props.elements[element]}</span> );
+            index += 1;
         }
 
         return spans;

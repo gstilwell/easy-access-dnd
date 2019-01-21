@@ -112,6 +112,7 @@ class MonsterBlock extends Block {
                         handleDragStart={this.startDrag}
                         handleDragStop={this.stopDrag}
                         handleDrag={this.drag}
+                        category="monsters"
                         type="monsterName" />
                     <AdjustableValue
                         blockname={this.props.name}
@@ -152,6 +153,7 @@ class CharacterBlock extends Block {
                         handleDragStart={this.startDrag}
                         handleDragStop={this.stopDrag}
                         handleDrag={this.drag}
+                        category="characters"
                         type="characterName" />
                     <AdjustableValue
                         blockname={this.props.name}

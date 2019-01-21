@@ -6,6 +6,20 @@ class Bit extends Component {
         return "bit" + this.props.text;
     }
 
+    close = () => {
+        let event = new CustomEvent( 'killBlock', {
+            detail: {
+                name: this.props.text,
+                type: this.props.category,
+            }
+        });
+        this.element().dispatchEvent(event);
+    }
+
+    element() {
+        return document.getElementById( this.bitId() );
+    }
+
     render() {
         var playername;
         if( this.props.playername ) {
@@ -19,7 +33,7 @@ class Bit extends Component {
                 <div>
                     <div className="charname">
                         <img src={ this.props.img } alt='' />
-                        { this.props.text }
+                        { this.props.text }<button onClick={this.close}>X</button>
                         { playername }
                     </div>
                 </div>
@@ -41,7 +55,6 @@ class DraggableBit extends Bit {
     element() {
         return document.getElementById(this.bitId());
     }
-
 }
 
 export default DraggableBit;

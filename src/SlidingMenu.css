@@ -1,9 +1,15 @@
-#menuButton {
+#openMenuButton {
     width: 50px;
     height: auto;
     margin: 3px;
-    aaaposition: absolute;
-    aaaz-index: 10;
+    position: absolute;
+    z-index: 10;
+}
+
+#closeMenuButton {
+    width: 50px;
+    height: auto;
+    margin: 3px;
 }
 
 #flyoutMenu {

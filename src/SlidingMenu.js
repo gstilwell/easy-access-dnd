@@ -9,7 +9,7 @@ import xicon from './img/xicon.png';
 class SlidingMenuButton extends Component {
     render() {
         return (
-            <img id="menuButton" src={this.props.icon} onClick={this.props.onClick} alt='' />
+            <img id={this.props.type + 'MenuButton'} src={this.props.icon} onClick={this.props.onClick} alt='' />
         );
     }
 }
@@ -65,9 +65,9 @@ class SlidingMenu extends Component {
 
         return (
             <div>
-            <SlidingMenuButton icon={hamburger} onClick={ this.openMenu }/>
+            <SlidingMenuButton type="open" icon={hamburger} onClick={ this.openMenu }/>
             <div id="flyoutMenu" className={visibility} >
-                <SlidingMenuButton icon={xicon} onClick={ this.closeMenu }/>
+                <SlidingMenuButton type="close" icon={xicon} onClick={ this.closeMenu }/>
                 { options }
             </div>
             </div>

@@ -9,3 +9,7 @@
     margin: 0px;
     padding: 3px;
 }
+
+.active {
+    background-color: lightgray;
+}

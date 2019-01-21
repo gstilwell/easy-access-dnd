@@ -12,52 +12,52 @@ class App extends Component {
     this.state = {
       newMonsterModalOpen: false,
       characters : {
-        "Usor": { playername: "Nic", passivePerception: 10, hp: 2, ac: 14, dex: 14 },
-        "Gun": { playername: "Drew", passivePerception: 10, hp: 2, ac: 14, dex: 14 },
-        "Smog": { playername: "Mark", passivePerception: 10, hp: 2, ac: 14, dex: 14 },
-        "Darvin": { playername: "Mike", passivePerception: 10, hp: 2, ac: 14, dex: 14 },
-        "Kellen": { playername: "Chris", passivePerception: 10, hp: 2, ac: 14, dex: 14 },
-        "Taklinn": { playername: "Sherry", passivePerception: 10, hp: 2, ac: 14, dex: 14 },
-        "Draak": { playername: "Shelly", passivePerception: 10, hp: 2, ac: 14, dex: 14 },
+        "Usor": { playername: "Nic", passivePerception: 12, hp: 36, hpMax: 36, ac: 10, initModifier: 0 },
+        "Gunn": { playername: "Drew", passivePerception: 13, hp: 48, hpMax: 48, ac: 15, initModifier: 1 },
+        "Smog": { playername: "Mark", passivePerception: 11, hp: 47, hpMax: 47, ac: 12, initModifier: 2 },
+        "Darvin": { playername: "Mike", passivePerception: 15, hp: 38, hpMax: 38, ac: 18, initModifier: 1 },
+        "Kellen": { playername: "Chris", passivePerception: 13, hp: 33, hpMax: 33, ac: 14, initModifier: 3 },
+        "Taklinn": { playername: "Sherry", passivePerception: 13, hp: 44, hpMax: 44, ac: 14, initModifier: 3 },
+        "Dra'ak": { playername: "Shelly", passivePerception: 15, hp: 44, hpMax: 44, ac: 17, initModifier: 5 },
       },
       monsters : {
-        "Strahd": { name: "Strahd", hp: 144, ac: 16, dex: 14,
+        "Strahd": { name: "Strahd", hp: 144, ac: 16, initModifier: 2,
           attacks: [
             { name: 'unarmed strike', toHitModifier: 9, damageDice: "3d6", damageModifier: 4 },
             { name: 'Bite', toHitModifier: 9, damageDice: "3d6", damageModifier: 4 },
             { name: 'Charm (wis 17)', toHitModifier: 17, damageDice: "1d0", damageModifier: 0 },
           ]},
-        "VampSpawn1": { name: "VampSpawn1", hp: 82, ac: 15, dex: 14,
+        "VampSpawn1": { name: "VampSpawn1", hp: 82, ac: 15, initModifier: 2,
           attacks: [
             { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
             { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
           ]},
-        "VampSpawn2": { name: "VampSpawn2", hp: 82, ac: 15, dex: 14,
+        "VampSpawn2": { name: "VampSpawn2", hp: 82, ac: 15, initModifier: 2,
           attacks: [
             { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
             { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
           ]},
-        "VampSpawn3": { name: "VampSpawn3", hp: 82, ac: 15, dex: 14,
+        "VampSpawn3": { name: "VampSpawn3", hp: 82, ac: 15, initModifier: 2,
           attacks: [
             { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
             { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
           ]},
-        "VampSpawn4": { name: "VampSpawn4", hp: 82, ac: 15, dex: 14,
+        "VampSpawn4": { name: "VampSpawn4", hp: 82, ac: 15, initModifier: 2,
           attacks: [
             { name: 'claws', toHitModifier: 6, damageDice: "2d4", damageModifier: 3 },
             { name: 'Bite', toHitModifier: 6, damageDice: "3d6", damageModifier: 3 },
           ]},
-        //"BlackSkel": { name: "BlackSkel", hp: 71, ac: 17, dex: 14,
+        //"BlackSkel": { name: "BlackSkel", hp: 71, ac: 17, initModifier: 2,
         //  attacks: [
         //    { name: 'Claw', toHitModifier: 6, damageDice: "1d8", damageModifier: 4 },
         //    { name: 'Shortsword', toHitModifier: 8, damageDice: "2d6", damageModifier: 4},
         //  ]},
-        //"Skeleton": { name: "Skeleton", hp: 13, ac: 13, dex: 14,
+        //"Skeleton": { name: "Skeleton", hp: 13, ac: 13, initModifier: 2,
         //  attacks: [
         //    { name: 'Shortsword', toHitModifier: 4, damageDice: "1d6", damageModifier: 2},
         //    { name: 'Shortbow', toHitModifier: 4, damageDice: "1d6", damageModifier: 2 },
         //  ]},
-        //"Undead Ooze": { name: "Undead Ooze", hp: 67, ac: 5, dex: 14,
+        //"Undead Ooze": { name: "Undead Ooze", hp: 67, ac: 5, initModifier: 2,
         //  attacks: [
         //    { name: 'Pseudopod 10ft', toHitModifier: 4, damageDice: "3d8", damageModifier: 1 },
         //  ]},
@@ -84,6 +84,7 @@ class App extends Component {
 
   componentDidMount() {
     document.getElementById('App').addEventListener('adjustValue', this.adjustValue, true);
+    document.getElementById('App').addEventListener('killBlock', this.removeBlock, true);
   }
 
   // category is 'character' or 'monster'
@@ -103,6 +104,11 @@ class App extends Component {
     this.setState( {[details.category]: beings} );
   }
 
+  removeBlock = (e) => {
+    let dudes = Object.assign({}, this.state[e.detail.type]);
+    delete dudes[e.detail.name];
+    this.setState( {[e.detail.type]: dudes} );
+  }
 
   handleOption1 = () => {
     console.log("1");
@@ -168,7 +174,7 @@ class App extends Component {
         <div id='mainapp' className="App">
           { this.monsterTags() }
           { this.characterTags() }
-          <InitiativeStrip combatants={ Object.assign({}, this.state.characters, this.state.monsters) } />
+          <InitiativeStrip monsters={this.state.monsters} characters={this.state.characters} />
         </div>
 
         <MonsterModal isOpen={this.state.newMonsterModalOpen} createMonsterCallback={this.createNewMonster} />
