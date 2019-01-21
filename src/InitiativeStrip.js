@@ -15,10 +15,6 @@ class InitiativeStrip extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        console.log("cougars", prevProps);
-    }
-
     doRolls() {
         let combatants = {},
             combatantsIn = Object.assign({}, this.props.monsters, this.props.characters);

@@ -124,7 +124,7 @@ class App extends Component {
     if( newMonster.quantity ) {
       for( let i = 1; i <= newMonster.quantity; i += 1 ) {
         let thisMonster = Object.assign({}, newMonster);
-        thisMonster.name = newMonster.name + i;
+        thisMonster.name = newMonster.name + '-' + i;
         monsters[thisMonster.name] = thisMonster;
       }
     }

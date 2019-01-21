@@ -25,7 +25,7 @@ db = mongoose.connect(DNDGLOBAL.mongoserver, {useNewUrlParser: true})
 let DBSCHEMAS = {
     monster: new mongoose.Schema({
                 name: String,
-                maxHP: Number,
+                hp: Number,
                 ac: Number,
                 initMod: Number,
                 attacks: Array,
@@ -33,7 +33,7 @@ let DBSCHEMAS = {
     character: new mongoose.Schema({
                 name: String,
                 playerName: String,
-                maxHP: Number,
+                hp: Number,
                 ac: Number,
                 passivePerception: Number,
                 initMod: Number,
@@ -44,24 +44,49 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.get('/getmonsters', (req, res) => {
+    let monsterModel = mongoose.model('Monster', DBSCHEMAS.monster);
+    monsterModel.find({}, (err, monsters) => {
+        let monsterNames = [];
+        for( monster in monsters ) {
+            monsterNames.push(monsters[monster].name);
+        }
+        console.log(monsterNames);
+        res.json(monsterNames);
+    }).select('name -_id');
+});
+
+app.get('/getmonster/:name', (req, res) => {
+    let monsterModel = mongoose.model('Monster', DBSCHEMAS.monster);
+    monsterModel.findOne({name: req.params.name}, (err, monster) => {
+        console.log(monster);
+        res.json(monster);
+    }).select('-_id');
+});
+
 app.post('/createmonster', (req, res) => {
-    let monster = mongoose.model('Monster', DBSCHEMAS.monster),
-        newMonster = new monster({ name: req.body.name,
-                                   maxHP: req.body.maxHP,
+    let monsterModel = mongoose.model('Monster', DBSCHEMAS.monster),
+        newMonster = new monsterModel({ name: req.body.name,
+                                   hp: req.body.hp,
                                    ac: req.body.ac,
                                    initMod: req.body.initMod,
                                    attacks: req.body.attacks
                                 });
-    newMonster.save( (err, dude) => {
-        if( err ) {
-            console.log("error saving", dude);
+
+    monsterModel.findOne({name: req.body.name}, (err, monster) => {
+        if( monster ) {
+            res.send(`monster named ${monster.name} already exists. not saving new monster`);
         }
-
-        console.log("saved", dude);
+        else {
+            newMonster.save( (err, dude) => {
+                if( err ) {
+                    console.log("error saving", dude);
+                }
+                console.log("saved", dude);
+            });
+            res.json(req.body);
+        }
     });
-
-    console.log(newMonster);
-    res.json(req.body);
 });
 
 app.listen(DNDGLOBAL.nodePort, () => {
