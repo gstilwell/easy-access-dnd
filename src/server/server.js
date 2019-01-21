@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 let DNDGLOBAL = {
     nodePort: 3001,
@@ -39,6 +40,7 @@ let DBSCHEMAS = {
             }),
 }
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

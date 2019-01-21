@@ -4,6 +4,7 @@ import { SlidingMenu } from './SlidingMenu.js';
 import './App.css';
 import MonsterModal from './MonsterModal.js';
 import InitiativeStrip from './InitiativeStrip.js';
+import $ from 'jquery';
 
 class App extends Component {
   constructor(props) {
@@ -123,14 +124,22 @@ class App extends Component {
     if( newMonster.quantity ) {
       for( let i = 1; i <= newMonster.quantity; i += 1 ) {
         let thisMonster = Object.assign({}, newMonster);
-        thisMonster.name = newMonster.name + i
+        thisMonster.name = newMonster.name + i;
         monsters[thisMonster.name] = thisMonster;
       }
     }
     else {
       monsters[newMonster.name] = newMonster;
     }
-    console.log(newMonster, monsters);
+
+    $.post(
+      'http://localhost:3001/createmonster/',
+      newMonster,
+      (data, status) => {
+        console.log("post reply", data, status);
+      }
+    );
+
     this.setState( {newMonsterModalOpen: false, monsters: monsters} );
   }
 
