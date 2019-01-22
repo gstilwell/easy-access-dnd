@@ -144,21 +144,24 @@ class App extends Component {
       for( let i = 0; i < newMonster.quantity; i += 1 ) {
         thisMonster = Object.assign({}, newMonster);
         thisMonster.name = newMonster.name + '-' + this.nextMonsterCount(newMonster.name);
+        thisMonster.initRoll = this.rollOneInitiative(thisMonster);
         monsters[thisMonster.name] = thisMonster;
-        console.log("created monster of type", newMonster.name, "as", thisMonster.name);
+        console.log("created monster of type", newMonster.name, "as", thisMonster.name, thisMonster);
       }
     }
     else {
       thisMonster = Object.assign({}, newMonster);
       thisMonster.name = newMonster.name + '-' + this.nextMonsterCount(newMonster.name);
+      thisMonster.initRoll = this.rollOneInitiative(thisMonster);
       monsters[thisMonster.name] = thisMonster;
+      console.log("created monster of type", newMonster.name, "as", thisMonster.name, thisMonster);
     }
 
     $.post(
       'http://localhost:3001/createmonster/',
       newMonster,
       (data, status) => {
-        console.log("post reply", data, status);
+        console.log("createmonster reply", data);
       }
     );
 
