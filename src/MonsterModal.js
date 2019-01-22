@@ -19,6 +19,7 @@ class MonsterModal extends Component {
             toHitMod: '',
             damageDice: '',
             damageMod: '',
+            initMod: '',
             quantity: '',
         };
     }
@@ -32,6 +33,7 @@ class MonsterModal extends Component {
             name: this.state.name,
             hp: parseInt(this.state.hp, 10),
             ac: parseInt(this.state.ac, 10),
+            initModifier: parseInt(this.state.initMod, 10),
             attacks: [
                 {
                     name: this.state.attackName,
@@ -85,6 +87,7 @@ class MonsterModal extends Component {
                     Name: <input type="text" name="name" value={this.state.name} onChange={this.changeField} /><br />
                     HP: <input type="text" name="hp" value={this.state.hp} onChange={this.changeField} /><br />
                     AC: <input type="text" name="ac" value={this.state.ac} onChange={this.changeField} /><br />
+                    Init modifier: <input type="text" name="initMod" value={this.state.initMod} onChange={this.changeField} /><br />
                     Attack: <input type="text" name="attackName" value={this.state.attackName} size={12} placeholder="name" onChange={this.changeField} />
                             <input type="text" name="toHitMod" value={this.state.toHitMod} size={6} placeholder="hit mod" onChange={this.changeField} />
                             <input type="text" name="damageDice" value={this.state.damageDice} size={12} placeholder="dmg dice" onChange={this.changeField} />

@@ -15,39 +15,50 @@ class InitiativeStrip extends Component {
         }
     }
 
-    doRolls() {
-        let combatants = {},
-            combatantsIn = Object.assign({}, this.props.monsters, this.props.characters);
-
-        // roll initiative for each combatant.
-        // the initiatives are stored in a dict by initiative number.
-        // this is because they need to be sorted, and that will be much easier with an array of keys
-        // than with an array of dict elements
-        for( let combatant in combatantsIn ) {
-            let thisCombatant = combatantsIn[combatant],
-                initRoll = this.dice.roll("1d20") + thisCombatant.initModifier;
-
-            if( !(initRoll in combatants) ) {
-                combatants[initRoll] = {};
-            }
-            combatants[initRoll][combatant] = thisCombatant;
+    componentDidUpdate(prevProps) {
+        if( this.props !== prevProps ) {
+            this.sortCombatants();
         }
-
-        return combatants;
     }
 
-    //TODO make a linked list (?) that keeps players sorted by their roll/dex
-    rollInitiative = () => {
-        let combatants = this.doRolls();
+    resetActive() {
+        // if we don't have an active combatant, we should be starting at the beginning.
+        // if we've rolled off the end of the combatant list, start over at the beginning.
+        console.log(this.state.active, this.state.sortedCombatants, this.state.sortedCombatants.length);
+        if( this.state.active === null || this.state.active >= this.state.sortedCombatants.length ) {
+            this.setState({active: 0});
+        }
+    }
 
-        let sortedCombatants = [];
-        for( let initiative in combatants ) {
-            for( let combatant in combatants[initiative] ) {
-                sortedCombatants.push(combatant);
+    sortCombatants() {
+        let combatants = Object.assign({}, this.props.characters, this.props.monsters, this.props.npcs),
+            binnedCombatants = {},
+            sortedCombatants = [];
+        
+        // per combatant, bin them according to init roll.
+        // each bin will be indexed by the roll value,
+        // and multiple combatants in a bin will be pushed into an array for sorting later
+        for( let combatant in combatants ) {
+            let thisCombatant = combatants[combatant];
+            if( !(thisCombatant.initRoll in binnedCombatants) ) {
+                binnedCombatants[thisCombatant.initRoll] = [];
             }
+            binnedCombatants[thisCombatant.initRoll].push(thisCombatant);
         }
 
-        this.setState( {sortedCombatants: sortedCombatants, active: 0} );
+        // now that we're binned, sort combatants into list of names
+        for( let initRoll in binnedCombatants ) {
+            // TODO break ties in bins in reverse dexterity order
+            binnedCombatants[initRoll].forEach(el => {
+                sortedCombatants.push(el.name);
+            });
+        }
+
+        // reverse the list, since we are in reverse initiative order right now
+        sortedCombatants.reverse();
+
+        // after the state has settled down, reset the active combatant
+        this.setState({sortedCombatants: sortedCombatants}, this.resetActive);
     }
 
     advance = () => {
@@ -60,7 +71,7 @@ class InitiativeStrip extends Component {
             // TODO there probably shouldn't be a hard coded ID in here, but I need something
             //      to add an eventlistener to
             <div id="initstrip">
-                <button onClick={this.rollInitiative}>Roll initiative</button>
+                <button onClick={this.props.rollInitiative}>Roll initiative</button>
                 <Strip elements={this.state.sortedCombatants} activeIndex={this.state.active} />
                 <button onClick={this.advance}>Next</button>
             </div>

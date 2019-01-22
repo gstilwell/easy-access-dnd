@@ -66,12 +66,13 @@ app.get('/getmonster/:name', (req, res) => {
 
 app.post('/createmonster', (req, res) => {
     let monsterModel = mongoose.model('Monster', DBSCHEMAS.monster),
-        newMonster = new monsterModel({ name: req.body.name,
-                                   hp: req.body.hp,
-                                   ac: req.body.ac,
-                                   initMod: req.body.initMod,
-                                   attacks: req.body.attacks
-                                });
+        newMonster = new monsterModel({
+                              name: req.body.name,
+                              hp: req.body.hp,
+                              ac: req.body.ac,
+                              initMod: req.body.initModifier,
+                              attacks: req.body.attacks
+                           });
 
     monsterModel.findOne({name: req.body.name}, (err, monster) => {
         if( monster ) {

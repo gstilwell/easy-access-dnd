@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { CharacterBlock, MonsterBlock } from './Block.js';
 import { SlidingMenu } from './SlidingMenu.js';
 import './App.css';
+import Dice from './Dice.js';
 import MonsterModal from './MonsterModal.js';
 import InitiativeStrip from './InitiativeStrip.js';
 import $ from 'jquery';
@@ -10,18 +11,24 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.dice = new Dice();
+
     this.state = {
-      newMonsterModalOpen: false,
+      gameId : 12,
+      newMonsterModalOpen : false,
       monsterCounts : {},
+      // repeating name inside dict is used downstream, though it probably shouldn't be.
+      // for now the duplication is necessary
       characters : {
-        //"Usor": { playername: "Nic", passivePerception: 12, hp: 36, hpMax: 36, ac: 10, initModifier: 0 },
-        //"Gunn": { playername: "Drew", passivePerception: 13, hp: 48, hpMax: 48, ac: 15, initModifier: 1 },
-        //"Smog": { playername: "Mark", passivePerception: 11, hp: 47, hpMax: 47, ac: 12, initModifier: 2 },
-        //"Darvin": { playername: "Mike", passivePerception: 15, hp: 38, hpMax: 38, ac: 18, initModifier: 1 },
-        //"Kellen": { playername: "Chris", passivePerception: 13, hp: 33, hpMax: 33, ac: 14, initModifier: 3 },
-        //"Taklinn": { playername: "Sherry", passivePerception: 13, hp: 44, hpMax: 44, ac: 14, initModifier: 3 },
-        //"Dra'ak": { playername: "Shelly", passivePerception: 15, hp: 44, hpMax: 44, ac: 17, initModifier: 5 },
+        "Usor": { name: "Usor", playername: "Nic", passivePerception: 12, hp: 36, hpMax: 36, ac: 10, initModifier: 0 },
+        "Gunn": { name: "Gunn", playername: "Drew", passivePerception: 13, hp: 48, hpMax: 48, ac: 15, initModifier: 1 },
+        "Smog": { name: "Smog", playername: "Mark", passivePerception: 11, hp: 47, hpMax: 47, ac: 12, initModifier: 2 },
+        "Darvin": { name: "Darvin", playername: "Mike", passivePerception: 15, hp: 38, hpMax: 38, ac: 18, initModifier: 1 },
+        "Kellen": { name: "Kellen", playername: "Chris", passivePerception: 13, hp: 33, hpMax: 33, ac: 14, initModifier: 3 },
+        "Taklinn": { name: "Taklinn", playername: "Sherry", passivePerception: 13, hp: 44, hpMax: 44, ac: 14, initModifier: 3 },
+        "Dra'ak": { name: "Dra'ak", playername: "Shelly", passivePerception: 15, hp: 44, hpMax: 44, ac: 17, initModifier: 5 },
       },
+      npcs : {},
       monsters : {
         "Strahd": { name: "Strahd", hp: 144, ac: 16, initModifier: 2,
           attacks: [
@@ -187,6 +194,28 @@ class App extends Component {
     return monsters;
   }
 
+  rollOneInitiative(dude) {
+    return this.dice.roll("1d20") + dude.initModifier;
+  }
+
+  // type is 'monsters' or 'characters'
+  // after rolling, the state will be updated with the initiatives appended to the appropriate type
+  rollInitiativeForType(type) {
+    let dudes = Object.assign({}, this.state[type]);
+    for( let dude in dudes ) {
+      let thisDude = dudes[dude];
+      thisDude.initRoll = this.rollOneInitiative(thisDude);
+    }
+    this.setState( {[type]: dudes} );
+  }
+
+  rollInitiative = () => {
+    this.rollInitiativeForType('monsters');
+    this.rollInitiativeForType('characters');
+    console.log(this.state.monsters);
+    console.log(this.state.characters);
+  }
+
   render() {
     return (
       <div id="App">
@@ -197,7 +226,7 @@ class App extends Component {
         <div id='mainapp' className="App">
           { this.monsterTags() }
           { this.characterTags() }
-          <InitiativeStrip monsters={this.state.monsters} characters={this.state.characters} />
+          <InitiativeStrip rollInitiative={this.rollInitiative} npcs={this.state.npcs} monsters={this.state.monsters} characters={this.state.characters} />
         </div>
 
         <MonsterModal isOpen={this.state.newMonsterModalOpen} createMonsterCallback={this.createNewMonster} />
