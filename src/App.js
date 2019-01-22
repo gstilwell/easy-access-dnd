@@ -16,6 +16,7 @@ class App extends Component {
     this.state = {
       gameId : 12,
       newMonsterModalOpen : false,
+      inCombat : false,
       monsterCounts : {},
       // repeating name inside dict is used downstream, though it probably shouldn't be.
       // for now the duplication is necessary
@@ -212,8 +213,11 @@ class App extends Component {
   rollInitiative = () => {
     this.rollInitiativeForType('monsters');
     this.rollInitiativeForType('characters');
-    console.log(this.state.monsters);
-    console.log(this.state.characters);
+    this.setState({inCombat: true});
+  }
+
+  endCombat = () => {
+    this.setState({inCombat: false});
   }
 
   render() {
@@ -226,7 +230,7 @@ class App extends Component {
         <div id='mainapp' className="App">
           { this.monsterTags() }
           { this.characterTags() }
-          <InitiativeStrip rollInitiative={this.rollInitiative} npcs={this.state.npcs} monsters={this.state.monsters} characters={this.state.characters} />
+          <InitiativeStrip inCombat={this.state.inCombat} rollInitiative={this.rollInitiative} endCombat={this.endCombat} npcs={this.state.npcs} monsters={this.state.monsters} characters={this.state.characters} />
         </div>
 
         <MonsterModal isOpen={this.state.newMonsterModalOpen} createMonsterCallback={this.createNewMonster} />

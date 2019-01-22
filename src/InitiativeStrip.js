@@ -66,14 +66,28 @@ class InitiativeStrip extends Component {
         this.setState( {active: newActive} );
     }
 
+    resetCombat = () => {
+        this.setState({active: null});
+        this.props.endCombat();
+    }
+
     render() {
+        let strip;
+
+        if( this.props.inCombat ) {
+            strip = <span>
+                        <Strip elements={this.state.sortedCombatants} activeIndex={this.state.active} />
+                        <button onClick={this.advance}>Next</button>
+                        <button onClick={this.resetCombat}>End combat</button>
+                    </span>
+        }
+
         return (
             // TODO there probably shouldn't be a hard coded ID in here, but I need something
             //      to add an eventlistener to
             <div id="initstrip">
                 <button onClick={this.props.rollInitiative}>Roll initiative</button>
-                <Strip elements={this.state.sortedCombatants} activeIndex={this.state.active} />
-                <button onClick={this.advance}>Next</button>
+                {strip}
             </div>
         );
     }
