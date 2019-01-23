@@ -34,6 +34,8 @@ class InitiativeStrip extends Component {
         let combatants = Object.assign({}, this.props.characters, this.props.monsters, this.props.npcs),
             binnedCombatants = {},
             sortedCombatants = [];
+
+            console.log(combatants);
         
         // per combatant, bin them according to init roll.
         // each bin will be indexed by the roll value,

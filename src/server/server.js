@@ -27,7 +27,7 @@ let DBSCHEMAS = {
                 name: String,
                 hp: Number,
                 ac: Number,
-                initMod: Number,
+                initModifier: Number,
                 attacks: Array,
             }),
     character: new mongoose.Schema({
@@ -36,7 +36,7 @@ let DBSCHEMAS = {
                 hp: Number,
                 ac: Number,
                 passivePerception: Number,
-                initMod: Number,
+                initModifier: Number,
             }),
 }
 
@@ -70,7 +70,7 @@ app.post('/createmonster', (req, res) => {
                               name: req.body.name,
                               hp: req.body.hp,
                               ac: req.body.ac,
-                              initMod: req.body.initModifier,
+                              initModifier: req.body.initModifier,
                               attacks: req.body.attacks
                            });
 
