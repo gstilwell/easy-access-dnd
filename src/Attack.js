@@ -16,7 +16,7 @@ class Attack extends Component {
 
     doAttack = (e) => {
         let hitRoll = this.dice.roll("1d20"),
-            toHit = hitRoll + this.props.toHitModifier,
+            toHit = hitRoll + Number(this.props.toHitModifier),
             isCrit = hitRoll === 20 ? true : false,
             damageDice = isCrit ? [this.props.damageDice, this.props.damageDice] : [this.props.damageDice],
             damageRoll = this.dice.roll(...damageDice),
