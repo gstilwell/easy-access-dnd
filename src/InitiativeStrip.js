@@ -12,6 +12,7 @@ class InitiativeStrip extends Component {
         this.state = {
             sortedCombatants: [],
             active: null,
+            activeName: '',
         }
     }
 
@@ -22,21 +23,37 @@ class InitiativeStrip extends Component {
     }
 
     resetActive() {
+        let activeIndex = this.state.sortedCombatants.findIndex(el => el === this.state.activeName);
+        // no combat, no active
+        if( !this.props.inCombat ) {
+            this.setState({active: null, activeName: ''});
+        }
+        // no combatants, no active
+        else if( this.state.sortedCombatants.length === 0 ) {
+            this.setState({active: null, activeName: ''});
+        }
         // if we don't have an active combatant, we should be starting at the beginning.
         // if we've rolled off the end of the combatant list, start over at the beginning.
-        console.log(this.state.active, this.state.sortedCombatants, this.state.sortedCombatants.length);
-        if( this.state.active === null || this.state.active >= this.state.sortedCombatants.length ) {
-            this.setState({active: 0});
+        else if( this.state.active === null || this.state.active >= this.state.sortedCombatants.length ) {
+            this.setState({active: 0, activeName: this.state.sortedCombatants[0]});
+        }
+        // active combatant is still in the list. force us to stay on that actor.
+        // this prevents the index from getting messed up in the event that the change
+        // to which we are responding includes adding an actor before the active player
+        else if( activeIndex >= 0 ) {
+            // we don't have to set activeName again
+            this.setState({active: activeIndex});
+        }
+        else if( activeIndex === -1 ) {
+            this.setState({activeName: this.state.sortedCombatants[this.state.active]});
         }
     }
 
-    sortCombatants() {
+    sortCombatants(activeName) {
         let combatants = Object.assign({}, this.props.characters, this.props.monsters, this.props.npcs),
             binnedCombatants = {},
             sortedCombatants = [];
 
-            console.log(combatants);
-        
         // per combatant, bin them according to init roll.
         // each bin will be indexed by the roll value,
         // and multiple combatants in a bin will be pushed into an array for sorting later
@@ -65,11 +82,11 @@ class InitiativeStrip extends Component {
 
     advance = () => {
         let newActive = (this.state.active + 1) % this.state.sortedCombatants.length;
-        this.setState( {active: newActive} );
+        this.setState( {active: newActive, activeName: this.state.sortedCombatants[newActive]} );
     }
 
     resetCombat = () => {
-        this.setState({active: null});
+        this.setState({active: null, activeName: ''});
         this.props.endCombat();
     }
 
