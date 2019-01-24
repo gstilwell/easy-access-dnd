@@ -223,6 +223,10 @@ class App extends Component {
     this.setState({inCombat: false});
   }
 
+  closeMonsterModal = () => {
+      this.setState({newMonsterModalOpen: false});
+  }
+
   render() {
     return (
       <div id="App">
@@ -236,7 +240,7 @@ class App extends Component {
           <InitiativeStrip inCombat={this.state.inCombat} rollInitiative={this.rollInitiative} endCombat={this.endCombat} npcs={this.state.npcs} monsters={this.state.monsters} characters={this.state.characters} />
         </div>
 
-        <MonsterModal isOpen={this.state.newMonsterModalOpen} createMonsterCallback={this.createNewMonster} />
+        <MonsterModal isOpen={this.state.newMonsterModalOpen} createMonsterCallback={this.createNewMonster} closeModal={this.closeMonsterModal} />
 
       </div>
     );

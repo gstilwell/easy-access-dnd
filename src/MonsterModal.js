@@ -10,7 +10,6 @@ class MonsterModal extends Component {
         super(props);
 
         this.state = {
-            isOpen: false,
             monsterList: [],
             name: '',
             hp: '',
@@ -78,10 +77,11 @@ class MonsterModal extends Component {
     }
 
     render() {
+        const closeButton = <button className="close" onClick={this.props.closeModal}>&times;</button>;
         return(
             <div>
                 <Modal isOpen={this.props.isOpen} toggle={this.sendMonsterInfo} className="newMonsterModal">
-                <ModalHeader toggle={this.sendMonsterInfo}>Create new monster</ModalHeader>
+                <ModalHeader toggle={this.sendMonsterInfo} close={closeButton}>Create new monster</ModalHeader>
                 <ModalBody>
                     <Select2 data={this.state.monsterList} onOpen={this.getMonsterList} onSelect={this.populateFromSelection} options={ {placeholder: 'clickit'} } /><br />
                     Name: <input type="text" name="name" value={this.state.name} onChange={this.changeField} /><br />
