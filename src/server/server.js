@@ -87,6 +87,16 @@ app.post('/createcharacter', (req, res) => {
 });
 
 app.post('/updateInitiative', (req, res) => {
+    let gameModel = mongoose.model('Game', schemas.game);
+    gameModel.findOneAndUpdate(
+        {gameId: req.body.gameId},
+        {initiative: {order: req.body.order, next: req.body.next}},
+        (err, data) => {
+            if(err) {
+                res.send("error updating initiative:", err);
+            }
+            res.send(data);
+        });
 });
 
 app.post('/createmonster', (req, res) => {

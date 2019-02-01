@@ -232,7 +232,21 @@ class App extends Component {
   }
 
   closeMonsterModal = () => {
-      this.setState({newMonsterModalOpen: false});
+    this.setState({newMonsterModalOpen: false});
+  }
+
+  doClicky = () => {
+    $.post(
+      'http://localhost:3001/updateInitiative/',
+      {
+        gameId: 12,
+        order: ['joe', 'sue', 'rathgar'],
+        next: 'rathgar',
+      },
+      (data, status) => {
+        console.log("updateInitiative reply", data);
+      }
+    );
   }
 
   render() {
@@ -243,6 +257,7 @@ class App extends Component {
           options={this.state.options}
         />
         <div id='mainapp' className="App">
+          <button onClick={this.doClicky}>Clicky</button>
           { this.monsterTags() }
           { this.characterTags() }
           <InitiativeStrip inCombat={this.state.inCombat} rollInitiative={this.rollInitiative} endCombat={this.endCombat} npcs={this.state.npcs} monsters={this.state.monsters} characters={this.state.characters} />
