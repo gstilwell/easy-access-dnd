@@ -77,12 +77,12 @@ class Block extends Component {
 
 class MonsterBlock extends Block {
     blockId() {
-        let id = "monsterBlock" + this.props.name;
+        let id = "monsterBlock" + this.props.monster.name;
         return id;
     }
 
     attacks() {
-        let attacks = this.props.attacks;
+        let attacks = this.props.monster.attacks;
         let tags = [];
 
         for( let attack in attacks ) {
@@ -108,25 +108,26 @@ class MonsterBlock extends Block {
         return (
             <div id={this.blockId()} className="block monster">
                     <DraggableBit
-                        text={this.props.name}
+                        text={this.props.monster.name}
+                        playername={this.props.monster.type}
                         handleDragStart={this.startDrag}
                         handleDragStop={this.stopDrag}
                         handleDrag={this.drag}
                         category="monsters"
                         type="monsterName" />
                     <AdjustableValue
-                        blockname={this.props.name}
+                        blockname={this.props.monster.name}
                         category="monsters"
-                        value={this.props.ac}
+                        value={this.props.monster.ac}
                         singlearrow={SingleArrow}
                         doublearrow={DoubleArrow}
                         icon={shield}
                         type="ac"
                         update={this.props.update} />
                     <AdjustableValue
-                        blockname={this.props.name}
+                        blockname={this.props.monster.name}
                         category="monsters"
-                        value={this.props.hp}
+                        value={this.props.monster.hp}
                         singlearrow={SingleArrow}
                         doublearrow={DoubleArrow}
                         icon={blood}

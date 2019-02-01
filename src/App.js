@@ -199,8 +199,7 @@ class App extends Component {
 
     for( let index in this.state.monsters ) {
       let monster = this.state.monsters[index];
-      monsters.push( <MonsterBlock key={index} name={monster.name} playername={monster.playername}
-                        hp={monster.hp} ac={monster.ac} attacks={monster.attacks}
+      monsters.push( <MonsterBlock key={index} monster={monster}
                         update={this.updateStat} /> );
     }
 
