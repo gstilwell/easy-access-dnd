@@ -12,6 +12,7 @@ class MonsterModal extends Component {
         this.state = {
             monsterList: [],
             name: '',
+            type: '',
             hp: '',
             ac: '',
             attackName: '',
@@ -30,6 +31,7 @@ class MonsterModal extends Component {
     sendMonsterInfo = () => {
         let info = {
             name: this.state.name,
+            type: this.state.type,
             hp: parseInt(this.state.hp, 10),
             ac: parseInt(this.state.ac, 10),
             initModifier: parseInt(this.state.initModifier, 10),
@@ -60,9 +62,9 @@ class MonsterModal extends Component {
         );
     }
 
-    getMonsterStats = (name) => {
+    getMonsterStats = (type) => {
         $.get(
-            `http://localhost:3001/getmonster/${name}`,
+            `http://localhost:3001/getmonster/${type}`,
             (monster, status) => {
                 console.log(monster);
                 this.props.createMonsterCallback(monster);
@@ -71,9 +73,9 @@ class MonsterModal extends Component {
     }
 
     populateFromSelection = (e) => {
-        let selectedMonsterName = e.params.data.text;
-        console.log(selectedMonsterName);
-        this.getMonsterStats(selectedMonsterName);
+        let selectedMonsterType = e.params.data.text;
+        console.log(selectedMonsterType);
+        this.getMonsterStats(selectedMonsterType);
     }
 
     render() {
@@ -84,7 +86,8 @@ class MonsterModal extends Component {
                 <ModalHeader toggle={this.sendMonsterInfo} close={closeButton}>Create new monster</ModalHeader>
                 <ModalBody>
                     <Select2 data={this.state.monsterList} onOpen={this.getMonsterList} onSelect={this.populateFromSelection} options={ {placeholder: 'clickit'} } /><br />
-                    Name: <input type="text" name="name" value={this.state.name} onChange={this.changeField} /><br />
+                    Name: <input type="text" name="name" placeholder="optional" value={this.state.name} onChange={this.changeField} /><br />
+                    Type: <input type="text" name="type" value={this.state.type} onChange={this.changeField} /><br />
                     HP: <input type="text" name="hp" value={this.state.hp} onChange={this.changeField} /><br />
                     AC: <input type="text" name="ac" value={this.state.ac} onChange={this.changeField} /><br />
                     Init modifier: <input type="text" name="initModifier" value={this.state.initModifier} onChange={this.changeField} /><br />
