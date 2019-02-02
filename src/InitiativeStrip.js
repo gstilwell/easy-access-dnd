@@ -41,11 +41,11 @@ class InitiativeStrip extends Component {
         let activeIndex = this.state.sortedCombatants.findIndex(el => el === this.state.activeName);
         // no combat, no active
         if( !this.props.inCombat ) {
-            this.setState({active: null, activeName: ''}, this.updateInitiative);
+            this.setState({sortedCombatants: [], active: null, activeName: ''}, this.updateInitiative);
         }
         // no combatants, no active
         else if( this.state.sortedCombatants.length === 0 ) {
-            this.setState({active: null, activeName: ''}, this.updateInitiative);
+            this.setState({sortedCombatants: [], active: null, activeName: ''}, this.updateInitiative);
         }
         // if we don't have an active combatant, we should be starting at the beginning.
         // if we've rolled off the end of the combatant list, start over at the beginning.
@@ -101,7 +101,7 @@ class InitiativeStrip extends Component {
     }
 
     resetCombat = () => {
-        this.setState({active: null, activeName: ''});
+        this.setState({sortedCombatants: [], active: null, activeName: ''}, this.updateInitiative);
         this.props.endCombat();
     }
 
