@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Strip from './Strip.js';
 import Dice from './Dice.js';
 import './InitiativeStrip.css';
+import $ from 'jquery';
 
 class InitiativeStrip extends Component {
     constructor(props) {
@@ -17,35 +18,49 @@ class InitiativeStrip extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if( this.props !== prevProps ) {
+        if( this.props !== prevProps && this.props.inCombat ) {
             this.sortCombatants();
         }
     }
 
+    updateInitiative() {
+        $.post(
+            'http://localhost:3001/updateInitiative/',
+            {
+                gameId: 12,
+                order: this.state.sortedCombatants,
+                next: this.state.activeName
+            },
+            (data, status) => {
+                console.log(data);
+            }
+        );
+    }
+    
     resetActive() {
         let activeIndex = this.state.sortedCombatants.findIndex(el => el === this.state.activeName);
         // no combat, no active
         if( !this.props.inCombat ) {
-            this.setState({active: null, activeName: ''});
+            this.setState({active: null, activeName: ''}, this.updateInitiative);
         }
         // no combatants, no active
         else if( this.state.sortedCombatants.length === 0 ) {
-            this.setState({active: null, activeName: ''});
+            this.setState({active: null, activeName: ''}, this.updateInitiative);
         }
         // if we don't have an active combatant, we should be starting at the beginning.
         // if we've rolled off the end of the combatant list, start over at the beginning.
         else if( this.state.active === null || this.state.active >= this.state.sortedCombatants.length ) {
-            this.setState({active: 0, activeName: this.state.sortedCombatants[0]});
+            this.setState({active: 0, activeName: this.state.sortedCombatants[0]}, this.updateInitiative);
         }
         // active combatant is still in the list. force us to stay on that actor.
         // this prevents the index from getting messed up in the event that the change
         // to which we are responding includes adding an actor before the active player
         else if( activeIndex >= 0 ) {
             // we don't have to set activeName again
-            this.setState({active: activeIndex});
+            this.setState({active: activeIndex}, this.updateInitiative);
         }
         else if( activeIndex === -1 ) {
-            this.setState({activeName: this.state.sortedCombatants[this.state.active]});
+            this.setState({activeName: this.state.sortedCombatants[this.state.active]}, this.updateInitiative);
         }
     }
 
@@ -82,7 +97,7 @@ class InitiativeStrip extends Component {
 
     advance = () => {
         let newActive = (this.state.active + 1) % this.state.sortedCombatants.length;
-        this.setState( {active: newActive, activeName: this.state.sortedCombatants[newActive]} );
+        this.setState( {active: newActive, activeName: this.state.sortedCombatants[newActive]}, this.updateInitiative );
     }
 
     resetCombat = () => {

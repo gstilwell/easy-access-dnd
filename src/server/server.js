@@ -95,7 +95,7 @@ app.post('/updateInitiative', (req, res) => {
             if(err) {
                 res.send("error updating initiative:", err);
             }
-            res.send(data);
+            res.send("updated initiative");
         });
 });
 
