@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
+import InitiativeDisplay from './InitiativeDisplay';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -32,7 +33,7 @@ function PCApp( {match} ) {
 }
 
 function Initiative( {match} ) {
-    return <h1>Initiative {match.params.gameid}</h1>;
+    return <InitiativeDisplay gameid={match.params.gameid} />;
 }
 
 // If you want your app to work offline and load faster, you can change

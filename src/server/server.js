@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const schemas = require('./DNDSchemas.js');
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 let DNDGLOBAL = {
     nodePort: 3001,
+    socketIoPort: 3003,
     mongohost: 'localhost',
     mongoport: 27017,
     mongodbname: 'dnd',
@@ -14,6 +17,9 @@ let DNDGLOBAL = {
         return `mongodb://${this.mongohost}:${this.mongoport}/${this.mongodbname}`;
     }
 };
+
+// squelch warning about findandmodify being deprecated
+mongoose.set('useFindAndModify', false);
 
 db = mongoose.connect(DNDGLOBAL.mongoserver, {useNewUrlParser: true})
         .then(() => {
@@ -95,8 +101,20 @@ app.post('/updateInitiative', (req, res) => {
             if(err) {
                 res.send("error updating initiative:", err);
             }
+            io.emit('updated initiative', {order: req.body.order, next: req.body.next});
             res.send("updated initiative");
         });
+});
+
+app.get('/getInitiative/:gameId', (req, res) => {
+    let gameModel = mongoose.model('Game', schemas.game);
+    gameModel.findOne({gameId: req.params.gameId}, (err, game) => {
+        if( err ) {
+            res.send(err);
+        }
+        console.log(game);
+        res.send(game);
+    });
 });
 
 app.post('/createmonster', (req, res) => {
@@ -126,5 +144,8 @@ app.post('/createmonster', (req, res) => {
 });
 
 app.listen(DNDGLOBAL.nodePort, () => {
-    console.log(`connected on port ${DNDGLOBAL.nodePort}`);
+    console.log(`node listening on port ${DNDGLOBAL.nodePort}`);
+});
+server.listen(DNDGLOBAL.socketIoPort, () => {
+    console.log(`http server connected to port ${DNDGLOBAL.socketIoPort}`);
 });
