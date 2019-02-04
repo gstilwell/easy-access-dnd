@@ -92,7 +92,7 @@ class MonsterModal extends Component {
                         AC: <Text field="ac" id="ac" /><br />
                         Init modifier: <Text field="initModifier" id="initModifier" /><br />
                         <Scope scope="attacks[0]">
-                            Attack: <Text field="name" id="name-0" size={12} placeholder="name" />
+                            Attack: <Text field="attackName" id="name-0" size={12} placeholder="name" />
                                     <Text field="toHitModifier" id="toHitMod-0" size={6} placeholder="hit mod" />
                                     <Text field="damageDice" id="damageDice-0" size={12} placeholder="dmg dice" />
                                     <Text field="damageModifier" id="damageMod-0" size={6} placeholder="dmg mod" /><br />

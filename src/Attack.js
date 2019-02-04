@@ -43,7 +43,7 @@ class Attack extends Component {
             <span>
                 <button className="attackButton" onClick={ this.doAttack } >
                 { icon }
-                { this.props.name }
+                { this.props.attackName }
                 </button>
                 {' '}
                 <img className="toHitIcon" src={ this.props.toHitIcon } alt='' />

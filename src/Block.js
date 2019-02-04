@@ -90,7 +90,7 @@ class MonsterBlock extends Block {
             tags.push(
                 <Attack
                     key={attack}
-                    name={attackInfo.name}
+                    attackName={attackInfo.attackName}
                     toHitModifier={attackInfo.toHitModifier}
                     damageDice={attackInfo.damageDice}
                     damageModifier={attackInfo.damageModifier}

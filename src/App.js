@@ -59,9 +59,9 @@ class App extends Component {
         monsters = {
             "Strahd": { name: "Strahd", hp: 144, ac: 16, initModifier: 2,
               attacks: [
-                { name: 'unarmed strike', toHitModifier: 9, damageDice: "3d6", damageModifier: 4 },
-                { name: 'Bite', toHitModifier: 9, damageDice: "3d6", damageModifier: 4 },
-                { name: 'Charm (wis 17)', toHitModifier: 17, damageDice: "1d0", damageModifier: 0 },
+                { attackName: 'unarmed strike', toHitModifier: 9, damageDice: "3d6", damageModifier: 4 },
+                { attackName: 'Bite', toHitModifier: 9, damageDice: "3d6", damageModifier: 4 },
+                { attackName: 'Charm (wis 17)', toHitModifier: 17, damageDice: "1d0", damageModifier: 0 },
               ]},
             //"VampSpawn1": { name: "VampSpawn1", hp: 82, ac: 15, initModifier: 2,
             //  attacks: [
