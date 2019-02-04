@@ -9,6 +9,7 @@
     "express": "^4.16.4",
     "forever": "^0.15.3",
     "formsy-react": "^1.1.5",
+    "informed": "^1.10.12",
     "jquery": "^3.3.1",
     "mongoose": "^5.4.5",
     "react": "^16.6.3",

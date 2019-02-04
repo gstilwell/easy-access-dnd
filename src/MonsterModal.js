@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, Text, Scope } from 'informed';
 import Select2 from 'react-select2-wrapper';
 import 'react-select2-wrapper/css/select2.css';
 import './MonsterModal.css';
@@ -28,23 +29,21 @@ class MonsterModal extends Component {
         this.getMonsterList();
     }
 
+    getFormApi = (api) => {
+        this.formApi = api;
+    }
+
     sendMonsterInfo = () => {
-        let info = {
-            name: this.state.name,
-            type: this.state.type,
-            hp: parseInt(this.state.hp, 10),
-            ac: parseInt(this.state.ac, 10),
-            initModifier: parseInt(this.state.initModifier, 10),
-            attacks: [
-                {
-                    name: this.state.attackName,
-                    toHitModifier: parseInt(this.state.toHitMod, 10),
-                    damageDice: this.state.damageDice,
-                    damageModifier: parseInt(this.state.damageMod, 10),
-                },
-            ],
-            quantity: this.state.quantity,
-        }
+        let form = this.formApi.getState(),
+            info = {
+                name: form.values.pcName,
+                type: form.values.type,
+                hp: parseInt(form.values.hp, 10),
+                ac: parseInt(form.values.ac, 10),
+                initModifier: parseInt(form.values.initModifier, 10),
+                attacks: form.values.attacks,
+                quantity: form.values.quantity,
+            };
         this.props.createMonsterCallback(info);
     }
 
@@ -83,23 +82,27 @@ class MonsterModal extends Component {
         return(
             <div>
                 <Modal isOpen={this.props.isOpen} toggle={this.sendMonsterInfo} className="newMonsterModal">
+            <Form id="create-monster" getApi={this.getFormApi}>
                 <ModalHeader toggle={this.sendMonsterInfo} close={closeButton}>Create new monster</ModalHeader>
                 <ModalBody>
-                    <Select2 data={this.state.monsterList} onOpen={this.getMonsterList} onSelect={this.populateFromSelection} options={ {placeholder: 'clickit'} } /><br />
-                    Name: <input type="text" name="name" placeholder="optional" value={this.state.name} onChange={this.changeField} /><br />
-                    Type: <input type="text" name="type" value={this.state.type} onChange={this.changeField} /><br />
-                    HP: <input type="text" name="hp" value={this.state.hp} onChange={this.changeField} /><br />
-                    AC: <input type="text" name="ac" value={this.state.ac} onChange={this.changeField} /><br />
-                    Init modifier: <input type="text" name="initModifier" value={this.state.initModifier} onChange={this.changeField} /><br />
-                    Attack: <input type="text" name="attackName" value={this.state.attackName} size={12} placeholder="name" onChange={this.changeField} />
-                            <input type="text" name="toHitMod" value={this.state.toHitMod} size={6} placeholder="hit mod" onChange={this.changeField} />
-                            <input type="text" name="damageDice" value={this.state.damageDice} size={12} placeholder="dmg dice" onChange={this.changeField} />
-                            <input type="text" name="damageMod" value={this.state.damageMod} size={6} placeholder="dmg mod" onChange={this.changeField} /><br />
-                    Quantity: <input type="text" name="quantity" value={this.state.quantity} size={4} onChange={this.changeField} /><br />
+                        <Select2 data={this.state.monsterList} onOpen={this.getMonsterList} onSelect={this.populateFromSelection} options={ {placeholder: 'clickit'} } /><br />
+                        Name: <Text field="pcName" id="pcName" placeholder="optional" /><br />
+                        Type: <Text field="type" id="type" /><br />
+                        HP: <Text field="hp" id="hp" /><br />
+                        AC: <Text field="ac" id="ac" /><br />
+                        Init modifier: <Text field="initModifier" id="initModifier" /><br />
+                        <Scope scope="attacks[0]">
+                            Attack: <Text field="name" id="name-0" size={12} placeholder="name" />
+                                    <Text field="toHitModifier" id="toHitMod-0" size={6} placeholder="hit mod" />
+                                    <Text field="damageDice" id="damageDice-0" size={12} placeholder="dmg dice" />
+                                    <Text field="damageModifier" id="damageMod-0" size={6} placeholder="dmg mod" /><br />
+                        </Scope>
+                       Quantity: <Text field="quantity" id="quantity" size={4} /><br />
                 </ModalBody>
                 <ModalFooter>
                     <button onClick={this.sendMonsterInfo}>Create monster</button>{' '}
                 </ModalFooter>
+            </Form>
                 </Modal>
             </div>
         );
