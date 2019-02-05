@@ -56,21 +56,45 @@ class MonsterModal extends Component {
         );
     }
 
-    getMonsterStats = (type) => {
+    getMonsterStats = (type, callback) => {
         $.get(
             `http://localhost:3001/getmonster/${type}`,
             (monster, status) => {
-                console.log(monster);
-                this.props.createMonsterCallback(monster);
+                callback(monster);
             }
         );
+    }
+
+    populateForm = (monster) => {
+        let attacks = [],
+            thisAttack;
+
+        // fill up attacks with attacks from monster
+        for( let attack in monster.attacks ) {
+            thisAttack = monster.attacks[attack];
+            attacks.push({
+                attackName: thisAttack.attackName,
+                toHitModifier: thisAttack.toHitModifier,
+                damageDice: thisAttack.damageDice,
+                damageModifier: thisAttack.damageModifier,
+            });
+        }
+
+        console.log(monster);
+        this.setState({numAttacks: monster.attacks.length});
+        this.formApi.setValues({
+            type: monster.type,
+            ac: monster.ac,
+            hp: monster.hp,
+            initModifier: monster.initModifier,
+            attacks: attacks,
+        });
     }
 
     //TODO me
     populateFromSelection = (e) => {
         let selectedMonsterType = e.params.data.text;
-        console.log(selectedMonsterType);
-        this.getMonsterStats(selectedMonsterType);
+        this.getMonsterStats(selectedMonsterType, this.populateForm);
     }
 
     drawAttacks(numAttacks) {
