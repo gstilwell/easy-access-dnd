@@ -50,7 +50,6 @@ class MonsterModal extends Component {
         $.get(
             'http://localhost:3001/getmonsters/',
             (data, status) => {
-                console.log(data);
                 this.setState({monsterList: data});
             }
         );
