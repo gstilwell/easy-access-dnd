@@ -12,6 +12,7 @@ class MonsterModal extends Component {
 
         this.state = {
             monsterList: [],
+            numAttacks: 1,
             name: '',
             type: '',
             hp: '',
@@ -44,6 +45,14 @@ class MonsterModal extends Component {
                 attacks: form.values.attacks,
                 quantity: form.values.quantity,
             };
+
+        // everything is saved as a string, so we need to take some of the strings in attack and turn them into numbers
+        // so that they can be used in calculations
+        for( let attack in info.attacks ) {
+            info.attacks[attack].toHitModifier = parseInt(info.attacks[attack].toHitModifier, 10);
+            info.attacks[attack].damageModifier = parseInt(info.attacks[attack].damageModifier, 10);
+        }
+
         this.props.createMonsterCallback(info);
     }
 
@@ -77,6 +86,20 @@ class MonsterModal extends Component {
         this.getMonsterStats(selectedMonsterType);
     }
 
+    drawAttacks(numAttacks) {
+        let attacks = [];
+        for( let i = 0; i < numAttacks; i += 1 ) {
+            attacks.push(
+            <Scope scope={"attacks[" + i + "]"} key={i}>
+                Attack: <Text field="attackName" id={"name-" + i} size={12} placeholder="name" />
+                        <Text field="toHitModifier" id={"toHitMod-" + i} onValueChange={this.convertToNumber} size={6} placeholder="hit mod" />
+                        <Text field="damageDice" id={"damageDice-" + i} size={12} placeholder="dmg dice" />
+                        <Text field="damageModifier" id={"damageMod-" + i} size={6} placeholder="dmg mod" />
+            </Scope>
+            );
+        }
+        return attacks;
+    }
     render() {
         const closeButton = <button className="close" onClick={this.props.closeModal}>&times;</button>;
         return(
@@ -91,12 +114,10 @@ class MonsterModal extends Component {
                         HP: <Text field="hp" id="hp" /><br />
                         AC: <Text field="ac" id="ac" /><br />
                         Init modifier: <Text field="initModifier" id="initModifier" /><br />
-                        <Scope scope="attacks[0]">
-                            Attack: <Text field="attackName" id="name-0" size={12} placeholder="name" />
-                                    <Text field="toHitModifier" id="toHitMod-0" size={6} placeholder="hit mod" />
-                                    <Text field="damageDice" id="damageDice-0" size={12} placeholder="dmg dice" />
-                                    <Text field="damageModifier" id="damageMod-0" size={6} placeholder="dmg mod" /><br />
-                        </Scope>
+                        {
+                            this.drawAttacks(this.state.numAttacks)
+                        }
+                        <button className="addRowButton" onClick={() => { this.setState({numAttacks: this.state.numAttacks + 1}) }}>+</button>
                        Quantity: <Text field="quantity" id="quantity" size={4} /><br />
                 </ModalBody>
                 <ModalFooter>
