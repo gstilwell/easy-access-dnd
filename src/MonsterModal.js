@@ -90,7 +90,6 @@ class MonsterModal extends Component {
         });
     }
 
-    //TODO me
     populateFromSelection = (e) => {
         let selectedMonsterType = e.params.data.text;
         this.getMonsterStats(selectedMonsterType, this.populateForm);
