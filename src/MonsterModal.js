@@ -13,16 +13,6 @@ class MonsterModal extends Component {
         this.state = {
             monsterList: [],
             numAttacks: 1,
-            name: '',
-            type: '',
-            hp: '',
-            ac: '',
-            attackName: '',
-            toHitMod: '',
-            damageDice: '',
-            damageMod: '',
-            initModifier: '',
-            quantity: '',
         };
     }
 
@@ -56,10 +46,6 @@ class MonsterModal extends Component {
         this.setState({numAttacks: 1});
     }
 
-    changeField = (e) => {
-        this.setState( {[e.target.name]: e.target.value} )
-    }
-
     getMonsterList = (e) => {
         $.get(
             'http://localhost:3001/getmonsters/',
@@ -80,6 +66,7 @@ class MonsterModal extends Component {
         );
     }
 
+    //TODO me
     populateFromSelection = (e) => {
         let selectedMonsterType = e.params.data.text;
         console.log(selectedMonsterType);
