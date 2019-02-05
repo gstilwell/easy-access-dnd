@@ -52,8 +52,8 @@ class MonsterModal extends Component {
             info.attacks[attack].toHitModifier = parseInt(info.attacks[attack].toHitModifier, 10);
             info.attacks[attack].damageModifier = parseInt(info.attacks[attack].damageModifier, 10);
         }
-
         this.props.createMonsterCallback(info);
+        this.setState({numAttacks: 1});
     }
 
     changeField = (e) => {
